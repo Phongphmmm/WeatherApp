@@ -1,10 +1,13 @@
 import { View, Text } from "react-native";
+import Linear from "../Utils/LinearGradient";
 
 function AddLocation() {
   return (
-    <View>
-      <Text>Add Location</Text>
-    </View>
+    <Linear>
+      <View>
+        <Text>Add Location</Text>
+      </View>
+    </Linear>
   );
 }
 export default AddLocation;

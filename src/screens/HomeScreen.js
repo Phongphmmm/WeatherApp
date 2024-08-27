@@ -8,21 +8,26 @@ import {
   StyleSheet,
   ActivityIndicator,
   StatusBar,
+  Image,
+  ImageBackground,
 } from "react-native";
 import * as Location from "expo-location";
-import { LinearGradient } from "expo-linear-gradient";
 
-// const openWeatherApp = `c434d1b03112519305e8d850d4b66a07`;
-
-// let url = `// https://api.openweathermap.org/data/2.5/onecall?&units=metric&exclude=minutely&appid=${openWeatherApp}`;
+import Linear from "../Utils/LinearGradient";
+import APi from "../Utils/APi";
 
 function HomeScreen() {
   return (
     <SafeAreaView style={styles.linearContainer}>
-      <LinearGradient colors={["#21005D", "#6750A4"]} style={styles.linear}>
-        <StatusBar barStyle="light-content" backgroundColor="#21005D" />
-      </LinearGradient>
-      <Text>HomeScreen</Text>
+      <Linear>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/weather.png")}
+          />
+        </View>
+        <APi />
+      </Linear>
     </SafeAreaView>
   );
 }
@@ -38,5 +43,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+  },
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: 300,
+    height: 300,
   },
 });
