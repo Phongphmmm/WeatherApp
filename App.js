@@ -13,8 +13,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
 import AddLocation from "./src/screens/AddLocation";
-import LinearGradient from "react-native-linear-gradient";
-import Linear from "./src/Utils/LinearGradient";
 import Loading from "./src/Components/Loading";
 
 const Stack = createNativeStackNavigator();
@@ -58,16 +56,11 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 1000);
   }, []);
 
   if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   return (

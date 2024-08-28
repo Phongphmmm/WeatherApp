@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 
-import Linear from "../Utils/LinearGradient";
+import Linear from "../Components/LinearGradient";
 import APi from "../Utils/APi";
 
 function HomeScreen() {

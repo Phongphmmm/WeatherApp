@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import Linear from "../Utils/LinearGradient";
+import Linear from "../Components/LinearGradient";
 
 function AddLocation() {
   return (
