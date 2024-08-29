@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
 import Loading from "../Components/Loading";
 import * as Location from "expo-location";
 
@@ -35,8 +35,8 @@ export default function APi() {
     }
     const fetchWeather = async () => {
       const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = location.coords.latitude;
-      const lng = location.coords.longitude;
+      const lat = 21.0285;
+      const lng = 105.8542;
       const weatherBaseUrl = `${BASE_URL}/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`;
 
       try {
@@ -55,8 +55,8 @@ export default function APi() {
         return;
       }
       const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = location.coords.latitude;
-      const lng = location.coords.longitude;
+      const lat = 21.0285;
+      const lng = 105.8542;
       const response = await fetch(
         `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`
       );
@@ -67,8 +67,8 @@ export default function APi() {
     const fetchHourlyForecast = async () => {
       if (!location) return;
       const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = location.coords.latitude;
-      const lng = location.coords.longitude;
+      const lat = 21.0285;
+      const lng = 105.8542;
       const hourlyForecastUrl = `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`;
 
       const response = await fetch(hourlyForecastUrl);
@@ -77,9 +77,9 @@ export default function APi() {
       setHourlyForecast(data.list);
     };
 
-    fetchHourlyForecast;
-    fetchDailyForecast();
     fetchWeather();
+    fetchHourlyForecast();
+    fetchDailyForecast();
   }, [location]);
 
   if (isLoading) {
@@ -105,25 +105,18 @@ export default function APi() {
       )}
 
       <FlatList
-        data={dailyForecast}
+        data={hourlyForecast}
         horizontal
-        contentContainerStyle={{
-          gap: 10,
-          backgroundColor: "#blue",
-          height: 150,
-        }}
-        renderItem={({ item }) => <ForecastItemDaily item={item} />}
+        style={styles.hourlyList}
+        renderItem={({ item }) => <ForecastItemHourly item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
 
       <FlatList
-        data={hourlyForecast}
-        contentContainerStyle={{
-          gap: 10,
-          backgroundColor: "#blue",
-          height: 150,
-        }}
-        renderItem={({ item }) => <ForecastItemHourly item={item} />}
+        data={dailyForecast}
+        showsHorizontalScrollIndicator={true}
+        style={{ flex: 1, width: "90%", marginLeft: 20 }}
+        renderItem={({ item }) => <ForecastItemDaily item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
     </View>
@@ -133,8 +126,6 @@ export default function APi() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   location: {
     fontSize: 30,
@@ -152,5 +143,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     marginTop: 50,
+  },
+  hourlyList: {
+    flex: 1,
   },
 });
