@@ -26,6 +26,7 @@ function HomeScreen() {
             source={require("../../assets/weather.png")}
           />
         </View>
+
         <APi />
       </Linear>
     </SafeAreaView>

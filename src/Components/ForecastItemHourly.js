@@ -11,25 +11,44 @@ const ForecastItemHourly = ({ item }) => {
   const weatherCondition = item.weather[0].main;
 
   let weatherImage;
-  if (weatherCondition === "clear sky" || "few clouds" || "scattered clouds") {
-    weatherImage = cloud;
-  } else if (weatherCondition === "shower rain" || "rain") {
-    weatherImage = rain;
-  } else if (weatherCondition === "mist") {
-    weatherImage = mist;
-  } else if (weatherCondition === "storm") {
-    weatherImage = storm;
+
+  switch (weatherCondition) {
+    case "Clear":
+    case "Few Clouds":
+    case "Scattered Clouds":
+    case "Broken Clouds":
+    case "Clouds":
+      weatherImage = cloud;
+      break;
+    case "shower Rain":
+    case "Rain":
+      weatherImage = rain;
+      break;
+    case "Thunderstorm":
+      weatherImage = storm;
+      break;
+    case "Mist":
+    case "Fog":
+      weatherImage = mist;
+      break;
+    default:
+      weatherImage = cloud;
+      break;
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.hour}>{new Date(item.dt * 1000).getHours()}:00</Text>
-      <View style={styles.weatherContainer}>
-        {weatherImage && (
-          <Image source={weatherImage} style={styles.weatherImage} />
-        )}
+      <View style={styles.card}>
+        <Text style={styles.hour}>
+          {new Date(item.dt * 1000).getHours()}:00
+        </Text>
+        <View style={styles.weatherContainer}>
+          {weatherImage && (
+            <Image source={weatherImage} style={styles.weatherImage} />
+          )}
+        </View>
+        <Text style={styles.temp}>{tempCelsius}°C</Text>
       </View>
-      <Text style={styles.temp}>{tempCelsius}°C</Text>
     </View>
   );
 };
@@ -54,6 +73,7 @@ const styles = StyleSheet.create({
     textShadowColor: "black",
     textShadowOffset: { width: -2, height: 2 },
     textShadowRadius: 3,
+    textAlign: "center",
   },
   description: {
     color: "white",
@@ -61,6 +81,7 @@ const styles = StyleSheet.create({
   },
   hour: {
     color: "white",
+    textAlign: "center",
   },
   weatherContainer: {
     flexDirection: "row",
@@ -69,6 +90,14 @@ const styles = StyleSheet.create({
   weatherImage: {
     width: 50,
     height: 50,
-    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  card: {
+    padding: 10,
+    borderRadius: 10,
+    borderColor: "white",
+    borderWidth: 1,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
 });

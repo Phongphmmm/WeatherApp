@@ -8,17 +8,28 @@ const ForecastItemDaily = ({ item }) => {
   const mist = require("../../assets/mist.png");
 
   const tempCelsius = Math.floor(item.main.temp - 273.15);
-  const weatherCondition = item.weather[0].main;
+  const weatherCondition = item.weather[0].description;
 
   let weatherImage;
-  if (weatherCondition === "clear sky" || "few clouds" || "scattered clouds") {
-    weatherImage = cloud;
-  } else if (weatherCondition === "light rain" || "rain" || "moderate rain") {
-    weatherImage = rain;
-  } else if (weatherCondition === "mist") {
-    weatherImage = mist;
-  } else if (weatherCondition === "storm") {
-    weatherImage = storm;
+  switch (weatherCondition) {
+    case "clear sky":
+    case "few clouds":
+    case "scattered clouds":
+      weatherImage = cloud;
+      break;
+    case "light rain":
+    case "rain":
+    case "moderate rain":
+      weatherImage = rain;
+      break;
+    case "mist":
+      weatherImage = mist;
+      break;
+    case "storm":
+      weatherImage = storm;
+      break;
+    default:
+      weatherImage = cloud;
   }
 
   return (
@@ -67,6 +78,7 @@ const styles = StyleSheet.create({
   description: {
     color: "white",
     fontSize: 16,
+    textTransform: "capitalize",
   },
   weatherContainer: {
     flexDirection: "row",

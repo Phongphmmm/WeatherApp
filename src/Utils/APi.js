@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 
 import ForecastItemDaily from "../Components/ForecastItemDaily";
 import ForecastItemHourly from "../Components/ForecastItemHourly";
+import LocationDisplay from "../Components/LocationDisplay";
 
 export default function APi() {
   const [weatherData, setWeatherData] = useState(null);
@@ -39,14 +40,10 @@ export default function APi() {
       const lng = 105.8542;
       const weatherBaseUrl = `${BASE_URL}/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`;
 
-      try {
-        const response = await fetch(weatherBaseUrl);
-        const data = await response.json();
-        setWeatherData(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log("Error fetching weather data:", error);
-      }
+      const response = await fetch(weatherBaseUrl);
+      const data = await response.json();
+      setWeatherData(data);
+      setIsLoading(false);
     };
 
     const fetchDailyForecast = async () => {
@@ -61,7 +58,9 @@ export default function APi() {
         `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`
       );
       const data = await response.json();
-      setDailyForecast(data.list);
+      const sortedDailyForecast = data.list.sort((a, b) => a.dt - b.dt);
+      setDailyForecast(sortedDailyForecast.slice(0, 7));
+      setIsLoading(false);
     };
 
     const fetchHourlyForecast = async () => {
@@ -73,7 +72,6 @@ export default function APi() {
 
       const response = await fetch(hourlyForecastUrl);
       const data = await response.json();
-      console.log("Hourly Forecast data:", JSON.stringify(data.list, null, 2));
       setHourlyForecast(data.list);
     };
 
@@ -87,23 +85,8 @@ export default function APi() {
   }
 
   return (
-    <View style={styles.container}>
-      {weatherData ? (
-        <View style={{ flex: 1 }}>
-          <Text style={styles.location}> {weatherData.name}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.temp}>
-              {Math.floor(weatherData.main.temp - 273.15)}°C
-            </Text>
-            <Text style={styles.description}>
-              {weatherData.weather[0].description}
-            </Text>
-          </View>
-        </View>
-      ) : (
-        <Text style={styles.text}>No weather data available</Text>
-      )}
-
+    <ScrollView style={styles.container}>
+      <LocationDisplay weatherData={weatherData} />
       <FlatList
         data={hourlyForecast}
         horizontal
@@ -115,11 +98,11 @@ export default function APi() {
       <FlatList
         data={dailyForecast}
         showsHorizontalScrollIndicator={true}
-        style={{ flex: 1, width: "90%", marginLeft: 20 }}
+        style={styles.dailyList}
         renderItem={({ item }) => <ForecastItemDaily item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -143,8 +126,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     marginTop: 50,
+    textTransform: "capitalize",
   },
   hourlyList: {
     flex: 1,
+  },
+  dailyList: {
+    flex: 1,
+    width: "90%",
+    marginLeft: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 30,
   },
 });
