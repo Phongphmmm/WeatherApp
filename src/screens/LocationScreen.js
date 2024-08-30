@@ -18,41 +18,60 @@ import CityModal from "../Components/CityModal";
 function LocationScreen() {
   const [cities, setCities] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [city, setCity] = useState("");
   const navigation = useNavigation();
 
-  const handleAddCity = async () => {
-    const weather = await fetchWeatherData(city);
-    setCities((prevCities) => [...prevCities, city]);
+  const handleAddCity = async (cityName) => {
+    const weather = await fetchWeatherData(cityName.trim());
+    if (weather) {
+      const cityData = {
+        name: cityName,
+        temp: Math.round(weather.temp),
+        description: weather.weather[0].description,
+      };
+      setCities((prevCities) => [...prevCities, cityData]);
+    }
     setIsModalVisible(false);
   };
 
   const handleCityPress = (city) => {
-    navigation.navigate("HomeScreen", { city });
-  };
-
-  const handleAddLocation = () => {
-    setIsModalVisible(true);
+    navigation.navigate("Home", { city });
   };
 
   const fetchWeatherData = async (cityName) => {
-    const WEATHER_API_KEY = "your_api_key";
-    const BASE_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${WEATHER_API_KEY}`;
+    try {
+      const WEATHER_API_KEY = "c434d1b03112519305e8d850d4b66a07";
+      const BASE_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${WEATHER_API_KEY}&units=metric`;
 
-    const response = await fetch(BASE_URL);
-    const data = await response.json();
-    return data;
+      const response = await fetch(BASE_URL);
+      const data = await response.json();
+
+      if (response.ok) {
+        return {
+          name: data.name,
+          temp: data.main.temp,
+          weather: data.weather[0].description,
+        };
+      } else {
+        console.error("City not found:", data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+      return null;
+    }
   };
 
   return (
     <View style={styles.container}>
       <FlatList
         data={cities}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleCityPress(item)}>
             <View style={styles.cityItem}>
-              <Text style={styles.cityText}>{item}</Text>
+              <Text style={styles.cityText}>{item.name}</Text>
+              <Text style={styles.cityTemp}>{item.temp}°C</Text>
+              <Text style={styles.description}>{item.description}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -60,7 +79,10 @@ function LocationScreen() {
           <Text style={styles.noCitiesText}>No cities added yet.</Text>
         }
       />
-      <TouchableOpacity onPress={handleAddLocation} style={styles.addButton}>
+      <TouchableOpacity
+        onPress={() => setIsModalVisible(true)}
+        style={styles.addButton}
+      >
         <Ionicons name="add-circle" size={75} color="#21005D" />
       </TouchableOpacity>
       <CityModal
@@ -87,7 +109,7 @@ const styles = StyleSheet.create({
   cityItem: {
     padding: 16,
     marginVertical: 8,
-    backgroundColor: "#87ceeb",
+    backgroundColor: "#21005D",
     borderRadius: 8,
   },
   cityText: {
@@ -100,5 +122,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#999",
     textAlign: "center",
+  },
+  cityTemp: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  description: {
+    color: "white",
   },
 });

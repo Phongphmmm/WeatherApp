@@ -1,17 +1,9 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import ReactNativeModal from "react-native-modal";
 
 const CityModal = ({ isVisible, onClose, onAddCity }) => {
   const [cityName, setCityName] = useState("");
-
   const handleAddCity = () => {
     if (cityName.trim()) {
       onAddCity(cityName);
@@ -20,33 +12,29 @@ const CityModal = ({ isVisible, onClose, onAddCity }) => {
   };
 
   return (
-    <Modal
-      visible={isVisible}
-      transparent={true}
-      animationType="slide"
-      onRequestClose={onClose}
+    <ReactNativeModal
+      isVisible={isVisible}
+      onBackdropPress={onClose}
+      style={styles.modalContainer}
     >
-      <TouchableOpacity style={styles.overlay} onPress={onClose}>
-        <View style={styles.modalContent}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter city name"
-            value={cityName}
-            onChangeText={setCityName}
-          />
-          <Button title="Add City" onPress={handleAddCity} />
-        </View>
-      </TouchableOpacity>
-    </Modal>
+      <View style={styles.modalContent}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter city name"
+          value={cityName}
+          onChangeText={setCityName}
+        />
+        <Button title="Add City" onPress={handleAddCity} />
+      </View>
+    </ReactNativeModal>
   );
 };
 
 const styles = StyleSheet.create({
-  overlay: {
+  modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    margin: 0,
   },
   modalContent: {
     backgroundColor: "white",
