@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
-import AddLocation from "./src/screens/AddLocation";
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 
@@ -36,15 +35,6 @@ function DrawerNavigator() {
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Add Location"
-        component={AddLocation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="add-circle" color={color} size={size} />
           ),
         }}
       />
@@ -83,7 +73,6 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Add Location" component={AddLocation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

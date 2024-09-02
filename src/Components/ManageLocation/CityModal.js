@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import ReactNativeModal from "react-native-modal";
 
 const CityModal = ({ isVisible, onClose, onAddCity }) => {
@@ -24,7 +31,9 @@ const CityModal = ({ isVisible, onClose, onAddCity }) => {
           value={cityName}
           onChangeText={setCityName}
         />
-        <Button title="Add City" onPress={handleAddCity} />
+        <TouchableOpacity onPress={handleAddCity} style={styles.addButton}>
+          <Text style={styles.buttonText}>Add City</Text>
+        </TouchableOpacity>
       </View>
     </ReactNativeModal>
   );
@@ -51,6 +60,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 8,
     width: "100%",
+  },
+  addButton: {
+    backgroundColor: "#21005D",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "500",
   },
 });
 

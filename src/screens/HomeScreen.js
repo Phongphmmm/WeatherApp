@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-  StatusBar,
-  Image,
-  ImageBackground,
-} from "react-native";
-import * as Location from "expo-location";
+import { View, SafeAreaView, StyleSheet } from "react-native";
 
+import LottieView from "lottie-react-native";
 import Linear from "../Components/LinearGradient";
 import APi from "../Utils/APi";
 
@@ -20,13 +9,14 @@ function HomeScreen() {
   return (
     <SafeAreaView style={styles.linearContainer}>
       <Linear>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/weather.png")}
+        <View style={styles.animationContainer}>
+          <LottieView
+            style={styles.animation}
+            source={require("../../assets/Animation - 1725023188161.json")}
+            autoPlay
+            loop
           />
         </View>
-
         <APi />
       </Linear>
     </SafeAreaView>
@@ -45,9 +35,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
   },
-  imageContainer: {
-    justifyContent: "center",
+  animationContainer: {
     alignItems: "center",
+    justifyContent: "center",
+  },
+  animation: {
+    width: 500,
+    height: 250,
   },
   image: {
     width: 300,

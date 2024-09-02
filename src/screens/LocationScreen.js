@@ -7,13 +7,15 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Linear from "../Components/LinearGradient";
 import ReactNativeModal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
-import CityModal from "../Components/CityModal";
+import CityModal from "../Components/ManageLocation/CityModal";
+import CityList from "../Components/ManageLocation/CityList";
 
 function LocationScreen() {
   const [cities, setCities] = useState([]);
@@ -26,7 +28,7 @@ function LocationScreen() {
       const cityData = {
         name: cityName,
         temp: Math.round(weather.temp),
-        description: weather.weather[0].description,
+        description: weather.weather,
       };
       setCities((prevCities) => [...prevCities, cityData]);
     }
@@ -35,6 +37,24 @@ function LocationScreen() {
 
   const handleCityPress = (city) => {
     navigation.navigate("Home", { city });
+  };
+
+  const handleCityLongPress = (cityName) => {
+    Alert.alert("Delete city ?", `Are you sure you want to delete this city?`, [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          setCities((prevCities) =>
+            prevCities.filter((city) => city.name !== cityName)
+          );
+        },
+      },
+    ]);
   };
 
   const fetchWeatherData = async (cityName) => {
@@ -63,22 +83,12 @@ function LocationScreen() {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={cities}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleCityPress(item)}>
-            <View style={styles.cityItem}>
-              <Text style={styles.cityText}>{item.name}</Text>
-              <Text style={styles.cityTemp}>{item.temp}°C</Text>
-              <Text style={styles.description}>{item.description}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        ListEmptyComponent={
-          <Text style={styles.noCitiesText}>No cities added yet.</Text>
-        }
+      <CityList
+        cities={cities}
+        onCityPress={handleCityPress}
+        onCityLongPress={handleCityLongPress}
       />
+
       <TouchableOpacity
         onPress={() => setIsModalVisible(true)}
         style={styles.addButton}
@@ -104,30 +114,6 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginBottom: 20,
-    marginLeft: 260,
-  },
-  cityItem: {
-    padding: 16,
-    marginVertical: 8,
-    backgroundColor: "#21005D",
-    borderRadius: 8,
-  },
-  cityText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  noCitiesText: {
-    marginTop: 20,
-    fontSize: 16,
-    color: "#999",
-    textAlign: "center",
-  },
-  cityTemp: {
-    fontSize: 16,
-    color: "#fff",
-  },
-  description: {
-    color: "white",
+    marginLeft: 280,
   },
 });
