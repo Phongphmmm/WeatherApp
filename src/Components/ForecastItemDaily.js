@@ -7,7 +7,6 @@ const ForecastItemDaily = ({ item }) => {
   const storm = require("../../assets/storm.png");
   const mist = require("../../assets/mist.png");
 
-  const tempCelsius = Math.floor(item.main.temp - 273.15);
   const weatherCondition = item.weather[0].description;
 
   let weatherImage;
@@ -44,7 +43,7 @@ const ForecastItemDaily = ({ item }) => {
 
       <Text style={styles.description}>{item.weather[0].description}</Text>
 
-      <Text style={styles.temp}>{tempCelsius}°C</Text>
+      <Text style={styles.temp}>{Math.floor(item.main.temp)}°C</Text>
     </View>
   );
 };

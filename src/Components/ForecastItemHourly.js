@@ -7,7 +7,7 @@ const ForecastItemHourly = ({ item }) => {
   const storm = require("../../assets/storm.png");
   const mist = require("../../assets/mist.png");
 
-  const tempCelsius = Math.floor(item.main.temp - 273.15);
+  const tempCelsius = Math.floor(item.main.temp);
   const weatherCondition = item.weather[0].main;
 
   let weatherImage;

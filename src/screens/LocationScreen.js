@@ -1,18 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Button,
-  FlatList,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import Linear from "../Components/LinearGradient";
-import ReactNativeModal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
@@ -36,7 +24,7 @@ function LocationScreen() {
   };
 
   const handleCityPress = (city) => {
-    navigation.navigate("Home", { city });
+    navigation.navigate("Home", { cityWeather: city });
   };
 
   const handleCityLongPress = (cityName) => {

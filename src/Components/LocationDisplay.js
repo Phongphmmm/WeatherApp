@@ -9,9 +9,7 @@ export default function LocationDisplay({ weatherData }) {
     <View style={styles.container}>
       <Text style={styles.location}> {weatherData.name}</Text>
       <View style={{ flexDirection: "row" }}>
-        <Text style={styles.temp}>
-          {Math.floor(weatherData.main.temp - 273.15)}°
-        </Text>
+        <Text style={styles.temp}>{Math.floor(weatherData.main.temp)}°</Text>
         <Text style={styles.description}>
           {weatherData.weather[0].description}
         </Text>

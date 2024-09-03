@@ -7,7 +7,7 @@ import ForecastItemDaily from "../Components/ForecastItemDaily";
 import ForecastItemHourly from "../Components/ForecastItemHourly";
 import LocationDisplay from "../Components/LocationDisplay";
 
-export default function APi() {
+export default function APi({ cityWeather }) {
   const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
@@ -16,29 +16,38 @@ export default function APi() {
   const [hourlyForecast, setHourlyForecast] = useState(null);
 
   const BASE_URL = `https://api.openweathermap.org/data/2.5/`;
+  const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
+    setIsLoading(true);
+    if (cityWeather) {
+      setLocation(null);
+    } else {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      })();
+    }
+  }, [cityWeather]);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      let weatherBaseUrl;
+      if (cityWeather) {
+        weatherBaseUrl = `${BASE_URL}/weather?q=${cityWeather.name}&appid=${WEATHER_API_KEY}&units=metric`;
+      } else if (location) {
+        const lat = location.coords.latitude;
+        const lng = location.coords.longitude;
+        weatherBaseUrl = `${BASE_URL}/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric`;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (!location) {
-      return;
-    }
-    const fetchWeather = async () => {
-      const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = 21.0285;
-      const lng = 105.8542;
-      const weatherBaseUrl = `${BASE_URL}/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`;
+      if (!weatherBaseUrl) return;
 
       const response = await fetch(weatherBaseUrl);
       const data = await response.json();
@@ -48,15 +57,18 @@ export default function APi() {
 
     const fetchDailyForecast = async () => {
       // api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-      if (!location) {
-        return;
+      if (!cityWeather && !location) return;
+      let forecastUrl;
+
+      if (cityWeather) {
+        forecastUrl = `${BASE_URL}forecast?q=${cityWeather.name}&appid=${WEATHER_API_KEY}&units=metric`;
+      } else if (location) {
+        const lat = location.coords.latitude;
+        const lng = location.coords.longitude;
+        forecastUrl = `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric`;
       }
-      const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = 21.0285;
-      const lng = 105.8542;
-      const response = await fetch(
-        `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`
-      );
+
+      const response = await fetch(forecastUrl);
       const data = await response.json();
       const sortedDailyForecast = data.list.sort((a, b) => a.dt - b.dt);
       setDailyForecast(sortedDailyForecast.slice(0, 7));
@@ -64,11 +76,16 @@ export default function APi() {
     };
 
     const fetchHourlyForecast = async () => {
-      if (!location) return;
-      const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
-      const lat = 21.0285;
-      const lng = 105.8542;
-      const hourlyForecastUrl = `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}`;
+      if (!cityWeather && !location) return;
+      let hourlyForecastUrl;
+
+      if (cityWeather) {
+        hourlyForecastUrl = `${BASE_URL}forecast?q=${cityWeather.name}&appid=${WEATHER_API_KEY}&units=metric`;
+      } else if (location) {
+        const lat = location.coords.latitude;
+        const lng = location.coords.longitude;
+        hourlyForecastUrl = `${BASE_URL}forecast?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric`;
+      }
 
       const response = await fetch(hourlyForecastUrl);
       const data = await response.json();
@@ -78,7 +95,7 @@ export default function APi() {
     fetchWeather();
     fetchHourlyForecast();
     fetchDailyForecast();
-  }, [location]);
+  }, [cityWeather, location]);
 
   if (isLoading) {
     return <Loading />;

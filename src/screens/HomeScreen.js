@@ -5,7 +5,8 @@ import LottieView from "lottie-react-native";
 import Linear from "../Components/LinearGradient";
 import APi from "../Utils/APi";
 
-function HomeScreen() {
+function HomeScreen({ route }) {
+  const { cityWeather } = route.params || {};
   return (
     <SafeAreaView style={styles.linearContainer}>
       <Linear>
@@ -17,7 +18,7 @@ function HomeScreen() {
             loop
           />
         </View>
-        <APi />
+        <APi cityWeather={cityWeather} />
       </Linear>
     </SafeAreaView>
   );
