@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
 import Loading from "../Components/Loading";
 import * as Location from "expo-location";
+import { useDispatch, useSelector } from "react-redux";
 
 import ForecastItemDaily from "../Components/ForecastItemDaily";
 import ForecastItemHourly from "../Components/ForecastItemHourly";
 import LocationDisplay from "../Components/LocationDisplay";
+import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 
 export default function APi({ cityWeather }) {
   const [weatherData, setWeatherData] = useState(null);
@@ -14,6 +16,8 @@ export default function APi({ cityWeather }) {
   const [errorMsg, setErrorMsg] = useState("");
   const [dailyForecast, setDailyForecast] = useState(null);
   const [hourlyForecast, setHourlyForecast] = useState(null);
+  const dispatch = useDispatch();
+  const currentWeather = useSelector((state) => state.weather.currentWeather);
 
   const BASE_URL = `https://api.openweathermap.org/data/2.5/`;
   const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
@@ -53,6 +57,7 @@ export default function APi({ cityWeather }) {
       const data = await response.json();
       setWeatherData(data);
       setIsLoading(false);
+      dispatch(setCurrentWeather(data));
     };
 
     const fetchDailyForecast = async () => {
@@ -73,6 +78,7 @@ export default function APi({ cityWeather }) {
       const sortedDailyForecast = data.list.sort((a, b) => a.dt - b.dt);
       setDailyForecast(sortedDailyForecast.slice(0, 7));
       setIsLoading(false);
+      dispatch(setDaily(sortedDailyForecast));
     };
 
     const fetchHourlyForecast = async () => {
@@ -90,6 +96,7 @@ export default function APi({ cityWeather }) {
       const response = await fetch(hourlyForecastUrl);
       const data = await response.json();
       setHourlyForecast(data.list);
+      dispatch(setHourly(data.list));
     };
 
     fetchWeather();
@@ -102,7 +109,7 @@ export default function APi({ cityWeather }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <LocationDisplay weatherData={weatherData} />
       <FlatList
         data={hourlyForecast}
@@ -119,7 +126,7 @@ export default function APi({ cityWeather }) {
         renderItem={({ item }) => <ForecastItemDaily item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
-    </ScrollView>
+    </View>
   );
 }
 

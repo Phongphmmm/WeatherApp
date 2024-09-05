@@ -33,7 +33,7 @@ const ForecastItemDaily = ({ item }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{dayjs(item.dt * 1000).format(" ddd ")}</Text>
+      <Text style={styles.date}>{dayjs(item.dt * 1000).format(" dddd ")}</Text>
 
       <View style={styles.weatherContainer}>
         {weatherImage && (

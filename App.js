@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
+import { Provider } from "react-redux";
+import { store } from "./src/Redux/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -64,17 +66,19 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar barStyle="light-content" backgroundColor="#21005D" />
-      <Stack.Navigator>
-        <Stack.Screen
-          name="DrawerNavigator"
-          component={DrawerNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar barStyle="light-content" backgroundColor="#21005D" />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="DrawerNavigator"
+            component={DrawerNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

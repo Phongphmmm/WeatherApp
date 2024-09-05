@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, SafeAreaView, StyleSheet } from "react-native";
+import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
 
 import LottieView from "lottie-react-native";
 import Linear from "../Components/LinearGradient";
@@ -10,14 +10,14 @@ function HomeScreen({ route }) {
   return (
     <SafeAreaView style={styles.linearContainer}>
       <Linear>
-        <View style={styles.animationContainer}>
+        <ScrollView style={styles.animationContainer}>
           <LottieView
             style={styles.animation}
             source={require("../../assets/Animation - 1725023188161.json")}
             autoPlay
             loop
           />
-        </View>
+        </ScrollView>
         <APi cityWeather={cityWeather} />
       </Linear>
     </SafeAreaView>
