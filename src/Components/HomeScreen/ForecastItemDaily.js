@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 const ForecastItemDaily = ({ item }) => {
-  const cloud = require("../../assets/cloud.png");
-  const rain = require("../../assets/rain.png");
-  const storm = require("../../assets/storm.png");
-  const mist = require("../../assets/mist.png");
+  const cloud = require("../../../assets/cloud.png");
+  const rain = require("../../../assets/rain.png");
+  const storm = require("../../../assets/storm.png");
+  const mist = require("../../../assets/mist.png");
 
   const weatherCondition = item.weather[0].description;
 
@@ -33,7 +33,7 @@ const ForecastItemDaily = ({ item }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{dayjs(item.dt * 1000).format(" dddd ")}</Text>
+      <Text style={styles.date}>{dayjs(item.dt * 1000).format(" ddd ")}</Text>
 
       <View style={styles.weatherContainer}>
         {weatherImage && (

@@ -7,17 +7,16 @@ import APi from "../Utils/APi";
 
 function HomeScreen({ route }) {
   const { cityWeather } = route.params || {};
+
   return (
-    <SafeAreaView style={styles.linearContainer}>
+    <SafeAreaView style={styles.container}>
       <Linear>
-        <ScrollView style={styles.animationContainer}>
-          <LottieView
-            style={styles.animation}
-            source={require("../../assets/Animation - 1725023188161.json")}
-            autoPlay
-            loop
-          />
-        </ScrollView>
+        <LottieView
+          style={styles.animation}
+          source={require("../../assets/Animation - 1725023188161.json")}
+          autoPlay
+          loop
+        />
         <APi cityWeather={cityWeather} />
       </Linear>
     </SafeAreaView>
@@ -27,25 +26,13 @@ function HomeScreen({ route }) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  linearContainer: {
+  container: {
     flex: 1,
-  },
-  linear: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-  },
-  animationContainer: {
     alignItems: "center",
     justifyContent: "center",
   },
   animation: {
     width: 500,
     height: 250,
-  },
-  image: {
-    width: 300,
-    height: 300,
   },
 });

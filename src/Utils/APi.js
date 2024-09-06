@@ -4,8 +4,8 @@ import Loading from "../Components/Loading";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 
-import ForecastItemDaily from "../Components/ForecastItemDaily";
-import ForecastItemHourly from "../Components/ForecastItemHourly";
+import ForecastItemDaily from "../Components/HomeScreen/ForecastItemDaily";
+import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
 import LocationDisplay from "../Components/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 
@@ -109,7 +109,7 @@ export default function APi({ cityWeather }) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <LocationDisplay weatherData={weatherData} />
       <FlatList
         data={hourlyForecast}
@@ -121,12 +121,11 @@ export default function APi({ cityWeather }) {
 
       <FlatList
         data={dailyForecast}
-        showsHorizontalScrollIndicator={true}
         style={styles.dailyList}
         renderItem={({ item }) => <ForecastItemDaily item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -134,10 +133,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  location: {
-    fontSize: 30,
-    color: "white",
-  },
+
   temp: {
     fontSize: 70,
     color: "white",
@@ -154,11 +150,12 @@ const styles = StyleSheet.create({
   },
   hourlyList: {
     flex: 1,
+    marginLeft: 35,
   },
   dailyList: {
     flex: 1,
-    width: "90%",
-    marginLeft: 20,
+    width: "80%",
+    marginHorizontal: 50,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 30,
   },

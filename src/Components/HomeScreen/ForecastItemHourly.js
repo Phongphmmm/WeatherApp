@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 const ForecastItemHourly = ({ item }) => {
-  const cloud = require("../../assets/cloud.png");
-  const rain = require("../../assets/rain.png");
-  const storm = require("../../assets/storm.png");
-  const mist = require("../../assets/mist.png");
+  const cloud = require("../../../assets/cloud.png");
+  const rain = require("../../../assets/rain.png");
+  const storm = require("../../../assets/storm.png");
+  const mist = require("../../../assets/mist.png");
 
   const tempCelsius = Math.floor(item.main.temp);
   const weatherCondition = item.weather[0].main;
