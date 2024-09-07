@@ -4,9 +4,17 @@ import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
 import LottieView from "lottie-react-native";
 import Linear from "../Components/LinearGradient";
 import APi from "../Utils/APi";
+import { registerForPushNotificationsAsync } from "../Notification/Notification";
 
 function HomeScreen({ route }) {
   const { cityWeather } = route.params || {};
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await registerForPushNotificationsAsync();
+      console.log("Expo push token", token);
+    };
+    getToken();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

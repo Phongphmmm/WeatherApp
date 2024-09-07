@@ -2,12 +2,9 @@ import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
 
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
-import { State } from "react-native-gesture-handler";
-import { addLocation, removeLocation } from "../Redux/weather";
 
 function LocationScreen() {
   const [cities, setCities] = useState([]);
