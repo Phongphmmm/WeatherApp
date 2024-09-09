@@ -57,20 +57,19 @@ function DrawerNavigator() {
   );
 }
 
-useEffect(() => {
-  (async () => {
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    if (status !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    }
-    if (status === "granted") {
-      console.log("Notification permissions granted.");
-    }
-  })();
-}, []);
-
 export default function App() {
   useEffect(() => {
+    (async () => {
+      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      if (status !== "granted") {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+      }
+      if (status === "granted") {
+        console.log("Notification permissions granted.");
+      }
+    })();
     registerForPushNotificationsAsync();
     scheduleDailyWeatherNotification();
   }, []);

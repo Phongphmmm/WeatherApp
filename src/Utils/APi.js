@@ -90,9 +90,20 @@ export default function APi({ cityWeather }) {
     return <Loading />;
   }
 
+  const { main } = weatherData || {};
+  const feelsLike = main ? main.feels_like : null;
+  const humidity = main ? main.humidity : null;
   return (
     <ScrollView style={styles.container}>
       <LocationDisplay weatherData={weatherData} />
+      <View style={{ flexDirection: "row" }}>
+        <View style={styles.feelsLike}>
+          <Text style={styles.infoText}>Feels like: {feelsLike}°C</Text>
+        </View>
+        <View style={styles.humidity}>
+          <Text style={styles.infoText}>Humidity: {humidity}%</Text>
+        </View>
+      </View>
       <FlatList
         data={hourlyForecast}
         horizontal
@@ -100,7 +111,6 @@ export default function APi({ cityWeather }) {
         renderItem={({ item }) => <ForecastItemHourly item={item} />}
         keyExtractor={(item) => item.dt.toString()}
       />
-
       <FlatList
         data={dailyForecast}
         style={styles.dailyList}
@@ -128,6 +138,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 50,
     textTransform: "capitalize",
+  },
+  feelsLike: {
+    padding: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 20,
+
+    alignItems: "center",
+    width: "40%",
+    marginHorizontal: 50,
+  },
+  humidity: {
+    padding: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 20,
+
+    alignItems: "center",
+    width: "40%",
+    marginLeft: -50,
+  },
+  infoText: {
+    fontSize: 18,
+    color: "white",
   },
   hourlyList: {
     flex: 1,

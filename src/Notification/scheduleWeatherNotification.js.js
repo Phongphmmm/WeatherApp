@@ -1,5 +1,5 @@
 import * as Notifications from "expo-notifications";
-import { fetchWeatherData } from "./api";
+import fetchWeatherData from "../Utils/APi";
 
 export const scheduleDailyWeatherNotification = async () => {
   const weatherData = await fetchWeatherData();
