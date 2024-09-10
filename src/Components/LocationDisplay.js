@@ -1,18 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect } from "react";
 
 export default function LocationDisplay({ weatherData }) {
-  useEffect(() => {
-    if (weatherData) {
-      if (weatherData.main.temp > 35) {
-        scheduleWeatherNotification(
-          "Nhiệt độ cao!",
-          `Nhiệt độ hiện tại: ${weatherData.main.temp}°C`
-        );
-      }
-    }
-  }, [weatherData]);
-
   if (!weatherData) {
     return <Text style={styles.text}>No weather data available</Text>;
   }
@@ -54,5 +42,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+    textAlign: "center",
+    marginBottom: 20,
   },
 });

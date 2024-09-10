@@ -11,15 +11,11 @@ import HomeScreen from "./src/screens/HomeScreen";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
 
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
-import { registerForPushNotificationsAsync } from "./src/Notification/Notification";
-import { scheduleDailyWeatherNotification } from "./src/Notification/scheduleWeatherNotification.js";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -58,22 +54,6 @@ function DrawerNavigator() {
 }
 
 export default function App() {
-  useEffect(() => {
-    (async () => {
-      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      if (status !== "granted") {
-        const { status } = await Permissions.askAsync(
-          Permissions.NOTIFICATIONS
-        );
-      }
-      if (status === "granted") {
-        console.log("Notification permissions granted.");
-      }
-    })();
-    registerForPushNotificationsAsync();
-    scheduleDailyWeatherNotification();
-  }, []);
-
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {

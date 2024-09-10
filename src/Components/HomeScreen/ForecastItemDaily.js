@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 const ForecastItemDaily = ({ item }) => {
-  const cloud = require("../../../assets/cloud.png");
-  const rain = require("../../../assets/rain.png");
-  const storm = require("../../../assets/storm.png");
-  const mist = require("../../../assets/mist.png");
+  const cloud = require("../../../assets/Image/cloud.png");
+  const rain = require("../../../assets/Image/rain.png");
+  const storm = require("../../../assets/Image/storm.png");
+  const mist = require("../../../assets/Image/mist.png");
 
   const weatherCondition = item.weather[0].description;
 
@@ -19,6 +19,8 @@ const ForecastItemDaily = ({ item }) => {
     case "light rain":
     case "rain":
     case "moderate rain":
+    case "heavy intensity rain":
+    case "very heavy rain":
       weatherImage = rain;
       break;
     case "mist":

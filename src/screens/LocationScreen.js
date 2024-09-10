@@ -1,7 +1,8 @@
 import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import * as Notifications from "expo-notifications";
 
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
@@ -10,6 +11,17 @@ function LocationScreen() {
   const [cities, setCities] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  const requestNotificationPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission for notifications was not granted!");
+    }
+  };
 
   const handleAddCity = async (cityName) => {
     const weather = await fetchWeatherData(cityName.trim());
@@ -24,8 +36,16 @@ function LocationScreen() {
     setIsModalVisible(false);
   };
 
-  const handleCityPress = (city) => {
+  const handleCityPress = async (city) => {
     navigation.navigate("Home", { cityWeather: city });
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `Weather in ${city.name}`,
+        body: `Current temperature: ${city.temp}°C with ${city.description}`,
+      },
+      trigger: { seconds: 1 },
+    });
   };
 
   const handleCityLongPress = (cityName) => {

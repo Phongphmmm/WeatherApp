@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
 import Loading from "../Components/Loading";
-import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 
 import ForecastItemDaily from "../Components/HomeScreen/ForecastItemDaily";
 import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
 import LocationDisplay from "../Components/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
+import WeatherInfo from "../Components/WeatherInfo";
 
 export default function APi({ cityWeather }) {
   const [weatherData, setWeatherData] = useState(null);
@@ -78,8 +78,9 @@ export default function APi({ cityWeather }) {
         dispatch(setCurrentWeather(data.weatherData));
         dispatch(setDaily(data.dailyForecast));
         dispatch(setHourly(data.hourlyForecast));
+      } else {
+        setWeatherData(null);
       }
-
       setIsLoading(false);
     };
 
@@ -89,21 +90,13 @@ export default function APi({ cityWeather }) {
   if (isLoading) {
     return <Loading />;
   }
+  const feelsLike = weatherData ? weatherData.main.feels_like : "N/A";
+  const humidity = weatherData ? weatherData.main.humidity : "N/A";
 
-  const { main } = weatherData || {};
-  const feelsLike = main ? main.feels_like : null;
-  const humidity = main ? main.humidity : null;
   return (
     <ScrollView style={styles.container}>
       <LocationDisplay weatherData={weatherData} />
-      <View style={{ flexDirection: "row" }}>
-        <View style={styles.feelsLike}>
-          <Text style={styles.infoText}>Feels like: {feelsLike}°C</Text>
-        </View>
-        <View style={styles.humidity}>
-          <Text style={styles.infoText}>Humidity: {humidity}%</Text>
-        </View>
-      </View>
+      <WeatherInfo feelsLike={feelsLike} humidity={humidity} />
       <FlatList
         data={hourlyForecast}
         horizontal
@@ -143,7 +136,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 20,
-
     alignItems: "center",
     width: "40%",
     marginHorizontal: 50,
@@ -152,7 +144,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 20,
-
     alignItems: "center",
     width: "40%",
     marginLeft: -50,

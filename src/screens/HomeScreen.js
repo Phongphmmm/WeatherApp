@@ -5,32 +5,29 @@ import LottieView from "lottie-react-native";
 import Linear from "../Components/LinearGradient";
 import APi from "../Utils/APi";
 import { registerForPushNotificationsAsync } from "../Notification/Notification";
+import WeatherAnimation from "../Components/HomeScreen/WeatherAnimation";
 
 function HomeScreen({ route }) {
   const { cityWeather } = route.params || {};
+  const [weatherCondition, setWeatherCondition] = useState(null);
+
   useEffect(() => {
-    const getToken = async () => {
-      const token = await registerForPushNotificationsAsync();
-      console.log("Expo push token", token);
-    };
-    getToken();
+    registerForPushNotificationsAsync();
   }, []);
 
+  const handleWeatherData = (weatherData) => {
+    const condition = weatherData?.weather[0]?.main;
+    setWeatherCondition(condition);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Linear>
-        <LottieView
-          style={styles.animation}
-          source={require("../../assets/Animation - 1725023188161.json")}
-          autoPlay
-          loop
-        />
-        <APi cityWeather={cityWeather} />
+        <WeatherAnimation weatherCondition={weatherCondition} />
+        <APi cityWeather={cityWeather} onWeatherData={handleWeatherData} />
       </Linear>
     </SafeAreaView>
   );
 }
-
 export default HomeScreen;
 
 const styles = StyleSheet.create({
