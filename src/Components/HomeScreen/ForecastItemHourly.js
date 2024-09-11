@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 const ForecastItemHourly = ({ item }) => {

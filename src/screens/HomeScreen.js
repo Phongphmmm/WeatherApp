@@ -19,6 +19,7 @@ function HomeScreen({ route }) {
     const condition = weatherData?.weather[0]?.main;
     setWeatherCondition(condition);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Linear>
@@ -35,9 +36,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  animation: {
-    width: 500,
-    height: 250,
   },
 });

@@ -9,7 +9,7 @@ import LocationDisplay from "../Components/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 import WeatherInfo from "../Components/WeatherInfo";
 
-export default function APi({ cityWeather }) {
+export default function APi({ cityWeather, onWeatherData }) {
   const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
@@ -59,6 +59,12 @@ export default function APi({ cityWeather }) {
       return null;
     }
   };
+
+  useEffect(() => {
+    if (weatherData && onWeatherData) {
+      onWeatherData(weatherData);
+    }
+  }, [weatherData, onWeatherData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -132,34 +138,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
     textTransform: "capitalize",
   },
-  feelsLike: {
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    borderRadius: 20,
-    alignItems: "center",
-    width: "40%",
-    marginHorizontal: 50,
-  },
-  humidity: {
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    borderRadius: 20,
-    alignItems: "center",
-    width: "40%",
-    marginLeft: -50,
-  },
-  infoText: {
-    fontSize: 18,
-    color: "white",
-  },
   hourlyList: {
     flex: 1,
-    marginLeft: 35,
+    marginLeft: 5,
   },
   dailyList: {
     flex: 1,
-    width: "80%",
-    marginHorizontal: 50,
+    width: "90%",
+    marginHorizontal: 23,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 30,
   },

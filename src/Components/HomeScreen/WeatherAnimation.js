@@ -21,13 +21,22 @@ function WeatherAnimation({ weatherCondition }) {
 
   return (
     <View style={styles.animationContainer}>
-      <LottieView source={animationSource} autoPlay loop />
+      <LottieView
+        source={animationSource}
+        autoPlay
+        loop
+        style={styles.animation}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   animationContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animation: {
     width: 300,
     height: 300,
   },

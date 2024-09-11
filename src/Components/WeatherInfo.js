@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
 const WeatherInfo = ({ feelsLike, humidity }) => (
-  <View style={{ flexDirection: "row" }}>
+  <View style={{ flexDirection: "row", marginRight: 50 }}>
     <View style={styles.feelsLike}>
-      <Text style={styles.infoText}>Feels like: {feelsLike}°C</Text>
+      <Text style={styles.infoText}>Feels like: {feelsLike}°</Text>
     </View>
     <View style={styles.humidity}>
       <Text style={styles.infoText}>Humidity: {humidity}%</Text>
@@ -15,20 +15,20 @@ export default WeatherInfo;
 
 const styles = StyleSheet.create({
   feelsLike: {
-    padding: 20,
+    padding: 15,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 20,
     alignItems: "center",
-    width: "40%",
-    marginHorizontal: 50,
+    width: "45%",
+    marginLeft: 40,
   },
   humidity: {
-    padding: 20,
+    padding: 15,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 20,
     alignItems: "center",
-    width: "40%",
-    marginLeft: -50,
+    width: "45%",
+    marginLeft: 10,
   },
   infoText: {
     fontSize: 18,
