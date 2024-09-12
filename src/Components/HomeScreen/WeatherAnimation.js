@@ -1,21 +1,32 @@
 import { View, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
 
-function WeatherAnimation({ weatherCondition }) {
+function WeatherAnimation({ weatherCondition, sunrise, sunset }) {
   let animationSource;
+  const currentTime = Math.floor(new Date().getTime() / 1000);
+
+  const isDayTime = currentTime >= sunrise && currentTime < sunset;
 
   switch (weatherCondition) {
     case "Rain":
-      animationSource = require("../../../assets/Animation/rain.json");
+      animationSource = isDayTime
+        ? require("../../../assets/Animation/rain.json")
+        : require("../../../assets/Animation/rain_night.json");
       break;
     case "Clear":
-      animationSource = require("../../../assets/Animation/sunny.json");
+      animationSource = isDayTime
+        ? require("../../../assets/Animation/sunny.json")
+        : require("../../../assets/Animation/clear_night.json");
       break;
     case "Clouds":
-      animationSource = require("../../../assets/Animation/cloudy.json");
+      animationSource = isDayTime
+        ? require("../../../assets/Animation/cloudy.json")
+        : require("../../../assets/Animation/clouds_night.json");
       break;
     default:
-      animationSource = require("../../../assets/Animation/cloudy.json");
+      animationSource = isDayTime
+        ? require("../../../assets/Animation/cloudy.json")
+        : require("../../../assets/Animation/clouds_night.json");
       break;
   }
 
@@ -37,8 +48,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   animation: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250,
   },
 });
 
