@@ -109,12 +109,15 @@ export default function APi({ cityWeather, onWeatherData }) {
         style={styles.hourlyList}
         renderItem={({ item }) => <ForecastItemHourly item={item} />}
         keyExtractor={(item) => item.dt.toString()}
+        scrollEnabled={true}
       />
+
       <FlatList
         data={dailyForecast}
         style={styles.dailyList}
         renderItem={({ item }) => <ForecastItemDaily item={item} />}
         keyExtractor={(item) => item.dt.toString()}
+        scrollEnabled={false}
       />
     </ScrollView>
   );
@@ -140,12 +143,12 @@ const styles = StyleSheet.create({
   },
   hourlyList: {
     flex: 1,
-    marginLeft: 5,
+    marginLeft: 7,
   },
   dailyList: {
     flex: 1,
     width: "90%",
-    marginHorizontal: 23,
+    marginHorizontal: 15,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 30,
   },

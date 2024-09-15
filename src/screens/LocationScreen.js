@@ -42,7 +42,7 @@ function LocationScreen() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: `Weather in ${city.name}`,
-        body: `Current temperature: ${city.temp}°C with ${city.description}`,
+        body: `Current temp: ${city.temp}°C with ${city.description}`,
       },
       trigger: { seconds: 1 },
     });
@@ -85,7 +85,7 @@ function LocationScreen() {
         return null;
       }
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      console.error("Error when fetching weather data:", error);
       return null;
     }
   };

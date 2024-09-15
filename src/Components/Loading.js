@@ -1,4 +1,3 @@
-import React from "react";
 import { View, ActivityIndicator, StyleSheet, Text } from "react-native";
 
 const Loading = ({ size = "large", color = "#0000ff" }) => {

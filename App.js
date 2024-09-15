@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-} from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -12,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
+import CustomLinear from "./src/Components/CustomLinear";
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import { Provider } from "react-redux";
@@ -29,6 +24,16 @@ function DrawerNavigator() {
         },
         drawerActiveTintColor: "black",
         drawerInactiveTintColor: "white",
+        headerStyle: {
+          backgroundColor: "#9370DB",
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 20,
+        },
       }}
     >
       <Drawer.Screen
