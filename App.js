@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
-import CustomLinear from "./src/Components/CustomLinear";
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import { Provider } from "react-redux";
@@ -21,19 +20,27 @@ function DrawerNavigator() {
       screenOptions={{
         drawerStyle: {
           backgroundColor: "#6E53BE",
+          width: 250,
         },
         drawerActiveTintColor: "black",
         drawerInactiveTintColor: "white",
         headerStyle: {
-          backgroundColor: "#9370DB",
+          backgroundColor: "transparent",
           elevation: 0,
           shadowOpacity: 0,
         },
-        headerTintColor: "#fff",
+        headerTransparent: true,
+        headerTintColor: "white",
         headerTitleStyle: {
           fontWeight: "bold",
           fontSize: 20,
+          textAlign: "center",
+          color: "#fff",
+          textShadowColor: "#000",
+          textShadowOffset: { width: 1, height: 1 },
+          textShadowRadius: 4,
         },
+        headerShown: true,
       }}
     >
       <Drawer.Screen

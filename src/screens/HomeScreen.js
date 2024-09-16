@@ -25,8 +25,6 @@ function HomeScreen({ route }) {
 
   const handleWeatherData = (weatherData) => {
     const condition = weatherData?.weather[0]?.main;
-    const sunriseTime = weatherData?.sys?.sunrise;
-    const sunsetTime = weatherData?.sys?.sunset;
     setWeatherCondition(condition);
     setSunrise(weatherData.sys.sunrise);
     setSunset(weatherData.sys.sunset);
@@ -38,11 +36,13 @@ function HomeScreen({ route }) {
         weatherCondition={weatherCondition}
         isDayTime={isDayTime}
       >
-        <WeatherAnimation
-          weatherCondition={weatherCondition}
-          sunrise={sunrise}
-          sunset={sunset}
-        />
+        <View style={{ paddingTop: 30 }}>
+          <WeatherAnimation
+            weatherCondition={weatherCondition}
+            sunrise={sunrise}
+            sunset={sunset}
+          />
+        </View>
         <APi cityWeather={cityWeather} onWeatherData={handleWeatherData} />
       </VideoBackground>
     </SafeAreaView>

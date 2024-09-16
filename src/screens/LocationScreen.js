@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
+import { LinearGradient } from "expo-linear-gradient";
 
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
@@ -91,25 +92,27 @@ function LocationScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <CityList
-        cities={cities}
-        onCityPress={handleCityPress}
-        onCityLongPress={handleCityLongPress}
-      />
+    <LinearGradient colors={["#3E2D8F", "#9D52AC"]} style={styles.linear}>
+      <View style={styles.container}>
+        <CityList
+          cities={cities}
+          onCityPress={handleCityPress}
+          onCityLongPress={handleCityLongPress}
+        />
 
-      <TouchableOpacity
-        onPress={() => setIsModalVisible(true)}
-        style={styles.addButton}
-      >
-        <Ionicons name="add-circle" size={75} color="#21005D" />
-      </TouchableOpacity>
-      <CityModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        onAddCity={handleAddCity}
-      />
-    </View>
+        <TouchableOpacity
+          onPress={() => setIsModalVisible(true)}
+          style={styles.addButton}
+        >
+          <Ionicons name="add-circle" size={75} color="white" />
+        </TouchableOpacity>
+        <CityModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onAddCity={handleAddCity}
+        />
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -119,10 +122,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    paddingTop: 55,
   },
   addButton: {
     marginBottom: 20,
     marginLeft: 280,
+  },
+  linear: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
   },
 });

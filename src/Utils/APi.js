@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
 import Loading from "../Components/Loading";
 import { useDispatch, useSelector } from "react-redux";
+import * as Location from "expo-location";
 
 import ForecastItemDaily from "../Components/HomeScreen/ForecastItemDaily";
 import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
@@ -19,6 +20,17 @@ export default function APi({ cityWeather, onWeatherData }) {
 
   const BASE_URL = `https://api.openweathermap.org/data/2.5/`;
   const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission was denied");
+      return;
+    }
+
+    let currentLocation = await Location.getCurrentPositionAsync({});
+    setLocation(currentLocation);
+  };
 
   const fetchWeatherData = async (
     cityWeather,
@@ -59,6 +71,10 @@ export default function APi({ cityWeather, onWeatherData }) {
       return null;
     }
   };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   useEffect(() => {
     if (weatherData && onWeatherData) {

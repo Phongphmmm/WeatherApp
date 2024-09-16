@@ -1,5 +1,6 @@
 import { FlatList, Text, StyleSheet } from "react-native";
 import CityItem from "./CityItem";
+import { LinearGradient } from "expo-linear-gradient";
 
 const CityList = ({ cities, onCityPress, onCityLongPress }) => {
   return (
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   noCitiesText: {
     marginTop: 20,
     fontSize: 16,
-    color: "#999",
+    color: "white",
     textAlign: "center",
   },
 });
