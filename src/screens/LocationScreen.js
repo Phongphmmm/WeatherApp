@@ -92,27 +92,25 @@ function LocationScreen() {
   };
 
   return (
-    <LinearGradient colors={["#3E2D8F", "#9D52AC"]} style={styles.linear}>
-      <View style={styles.container}>
-        <CityList
-          cities={cities}
-          onCityPress={handleCityPress}
-          onCityLongPress={handleCityLongPress}
-        />
+    <View style={styles.container}>
+      <CityList
+        cities={cities}
+        onCityPress={handleCityPress}
+        onCityLongPress={handleCityLongPress}
+      />
 
-        <TouchableOpacity
-          onPress={() => setIsModalVisible(true)}
-          style={styles.addButton}
-        >
-          <Ionicons name="add-circle" size={75} color="white" />
-        </TouchableOpacity>
-        <CityModal
-          isVisible={isModalVisible}
-          onClose={() => setIsModalVisible(false)}
-          onAddCity={handleAddCity}
-        />
-      </View>
-    </LinearGradient>
+      <TouchableOpacity
+        onPress={() => setIsModalVisible(true)}
+        style={styles.addButton}
+      >
+        <Ionicons name="add-circle" size={75} color="#3E2D8F" />
+      </TouchableOpacity>
+      <CityModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onAddCity={handleAddCity}
+      />
+    </View>
   );
 }
 
@@ -127,11 +125,5 @@ const styles = StyleSheet.create({
   addButton: {
     marginBottom: 20,
     marginLeft: 280,
-  },
-  linear: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
   },
 });

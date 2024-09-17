@@ -27,7 +27,6 @@ function DrawerNavigator() {
         headerStyle: {
           backgroundColor: "transparent",
           elevation: 0,
-          shadowOpacity: 0,
         },
         headerTransparent: true,
         headerTintColor: "white",
@@ -35,10 +34,6 @@ function DrawerNavigator() {
           fontWeight: "bold",
           fontSize: 20,
           textAlign: "center",
-          color: "#fff",
-          textShadowColor: "#000",
-          textShadowOffset: { width: 1, height: 1 },
-          textShadowRadius: 4,
         },
         headerShown: true,
       }}
@@ -59,6 +54,7 @@ function DrawerNavigator() {
           drawerIcon: ({ color, size }) => (
             <Ionicons name="location" color={color} size={size} />
           ),
+          headerTintColor: "#392C60",
         }}
       />
     </Drawer.Navigator>

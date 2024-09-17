@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   noCitiesText: {
     marginTop: 20,
     fontSize: 16,
-    color: "white",
+    color: "gray",
     textAlign: "center",
   },
 });
