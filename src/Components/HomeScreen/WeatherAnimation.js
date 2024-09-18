@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   animationContainer: {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 40,
   },
   animation: {
     width: 250,

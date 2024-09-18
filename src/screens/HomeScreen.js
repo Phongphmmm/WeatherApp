@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import { View, SafeAreaView, StyleSheet, StatusBar } from "react-native";
 
 import APi from "../Utils/APi";
 import { registerForPushNotificationsAsync } from "../Notification/Notification";
@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 42,
   },
 });

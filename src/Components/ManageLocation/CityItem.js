@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 15,
     backgroundColor: "#3E2D8F",
-    marginTop: 15,
+    marginTop: 10,
   },
   cityText: {
     fontSize: 18,

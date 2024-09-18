@@ -1,9 +1,14 @@
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Alert,
+} from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
-import { LinearGradient } from "expo-linear-gradient";
 
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
@@ -93,11 +98,18 @@ function LocationScreen() {
 
   return (
     <View style={styles.container}>
-      <CityList
-        cities={cities}
-        onCityPress={handleCityPress}
-        onCityLongPress={handleCityLongPress}
+      <StatusBar
+        barStyle="dark-content"
+        translucent={true}
+        backgroundColor="transparent"
       />
+      <View style={{ marginTop: 40 }}>
+        <CityList
+          cities={cities}
+          onCityPress={handleCityPress}
+          onCityLongPress={handleCityLongPress}
+        />
+      </View>
 
       <TouchableOpacity
         onPress={() => setIsModalVisible(true)}
@@ -123,7 +135,9 @@ const styles = StyleSheet.create({
     paddingTop: 55,
   },
   addButton: {
-    marginBottom: 20,
-    marginLeft: 280,
+    marginLeft: 260,
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 
+import MapScreen from "./src/screens/MapScreen";
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import { Provider } from "react-redux";
@@ -57,6 +58,16 @@ function DrawerNavigator() {
           headerTintColor: "#392C60",
         }}
       />
+      <Drawer.Screen
+        name="Map"
+        component={MapScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="map-outline" color={color} size={size} />
+          ),
+          headerTintColor: "#392C60",
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -76,7 +87,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar barStyle="light-content" backgroundColor="#21005D" />
         <Stack.Navigator>
           <Stack.Screen
             name="DrawerNavigator"
