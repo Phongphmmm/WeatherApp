@@ -18,4 +18,4 @@ A minimal modern UI weather app developed using React Native Expo . When you ope
 2. Navigate to the project directory: cd WeatherApp
 3. Install dependencies: npm install
 4. Start the Expo server: npm start
-# Screenshots
+
