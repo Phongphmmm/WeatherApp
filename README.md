@@ -20,10 +20,10 @@ A minimal modern UI weather app developed using React Native Expo . When you ope
 4. Start the Expo server: npm start
    
 # Screenshots
-<img src="https://github.com/user-attachments/assets/0b3e8b75-0988-4ac4-934f-b482e24b7227" alt="homeScreen" width="100"/>
-<img src="https://github.com/user-attachments/assets/e3d115fb-406c-43aa-a603-5265ecfc9759" alt="homeScreen" width="100"/>
-<img src="https://github.com/user-attachments/assets/dcd9d385-23af-48d7-a023-cac38c9c0ad1" alt="homeScreen" width="100"/>
-<img src="https://github.com/user-attachments/assets/df18354a-1884-4437-935a-1f3b2ce6e355" alt="homeScreen" width="100"/>
-<img src="https://github.com/user-attachments/assets/c56b2993-d0af-4251-b570-122280f1fe56" alt="homeScreen" width="100"/>
+<img src="https://github.com/user-attachments/assets/0b3e8b75-0988-4ac4-934f-b482e24b7227" alt="homeScreen" width="150"/>
+<img src="https://github.com/user-attachments/assets/e3d115fb-406c-43aa-a603-5265ecfc9759" alt="homeScreen" width="150"/>
+<img src="https://github.com/user-attachments/assets/dcd9d385-23af-48d7-a023-cac38c9c0ad1" alt="homeScreen" width="150"/>
+<img src="https://github.com/user-attachments/assets/df18354a-1884-4437-935a-1f3b2ce6e355" alt="homeScreen" width="150"/>
+<img src="https://github.com/user-attachments/assets/c56b2993-d0af-4251-b570-122280f1fe56" alt="homeScreen" width="150"/>
 
 
