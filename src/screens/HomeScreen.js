@@ -30,8 +30,10 @@ function HomeScreen({ route }) {
     setSunset(weatherData.sys.sunset);
   };
   const isDayTime = calculateDayTime();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <StatusBar backgroundColor="transparent" translucent={true} />
       <VideoBackground
         weatherCondition={weatherCondition}
         isDayTime={isDayTime}
@@ -45,7 +47,7 @@ function HomeScreen({ route }) {
         </View>
         <APi cityWeather={cityWeather} onWeatherData={handleWeatherData} />
       </VideoBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 export default HomeScreen;
@@ -53,8 +55,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     paddingTop: 42,
   },
 });

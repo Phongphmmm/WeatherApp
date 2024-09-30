@@ -3,13 +3,12 @@
     "name": "WeatherApp",
     "slug": "WeatherApp",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/weather.png",
+    "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/weather.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#6750A4"
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true

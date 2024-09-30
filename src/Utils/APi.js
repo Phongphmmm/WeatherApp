@@ -6,7 +6,7 @@ import * as Location from "expo-location";
 
 import ForecastItemDaily from "../Components/HomeScreen/ForecastItemDaily";
 import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
-import LocationDisplay from "../Components/LocationDisplay";
+import LocationDisplay from "../Components/HomeScreen/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 import WeatherInfo from "../Components/WeatherInfo";
 

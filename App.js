@@ -11,6 +11,7 @@ import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
+import VoiceInputScreen from "./src/screens/VoiceInputScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -34,7 +35,6 @@ function DrawerNavigator() {
         headerTitleStyle: {
           fontWeight: "bold",
           fontSize: 20,
-          textAlign: "center",
         },
         headerShown: true,
       }}
@@ -64,6 +64,16 @@ function DrawerNavigator() {
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="map-outline" color={color} size={size} />
+          ),
+          headerTintColor: "#392C60",
+        }}
+      />
+      <Drawer.Screen
+        name="Voice"
+        component={VoiceInputScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="mic-outline" color={color} size={size} />
           ),
           headerTintColor: "#392C60",
         }}
