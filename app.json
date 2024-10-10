@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WeatherApp",
-    "slug": "WeatherApp",
+    "name": "weatherapp",
+    "slug": "weatherapp",
     "version": "1.0.0",
     "icon": "./assets/weather.png",
     "orientation": "portrait",
