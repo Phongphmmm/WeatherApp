@@ -1,11 +1,11 @@
+import { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Text,
   StatusBar,
-  Alert,
 } from "react-native";
-import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
@@ -16,11 +16,51 @@ import CityList from "../Components/ManageLocation/CityList";
 function LocationScreen() {
   const [cities, setCities] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedCities, setSelectedCities] = useState([]);
+  const [isSelecting, setIsSelecting] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
     requestNotificationPermission();
   }, []);
+
+  useEffect(() => {
+    if (isSelecting) {
+      navigation.setOptions({
+        title: `Đã chọn: ${selectedCities.length}`,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={handleCancelSelection}
+            style={{ marginLeft: 20 }}
+          >
+            <Ionicons name="close" size={24} color="red" />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={handleSelectAll}
+            style={{ marginRight: 20 }}
+          >
+            <Ionicons
+              name={
+                selectedCities.length === cities.length
+                  ? "checkmark-circle"
+                  : "checkmark-circle-outline"
+              }
+              size={24}
+              color="green"
+            />
+          </TouchableOpacity>
+        ),
+      });
+    } else {
+      navigation.setOptions({
+        title: "Location Manage",
+        headerLeft: undefined,
+        headerRight: undefined,
+      });
+    }
+  }, [isSelecting, selectedCities, cities]);
 
   const requestNotificationPermission = async () => {
     const { status } = await Notifications.requestPermissionsAsync();
@@ -42,10 +82,9 @@ function LocationScreen() {
     setIsModalVisible(false);
   };
 
-  const handleCityPress = async (city) => {
+  const handleCityPress = (city) => {
     navigation.navigate("Home", { cityWeather: city });
-
-    await Notifications.scheduleNotificationAsync({
+    Notifications.scheduleNotificationAsync({
       content: {
         title: `Weather in ${city.name}`,
         body: `Current temp: ${city.temp}°C with ${city.description}`,
@@ -55,21 +94,35 @@ function LocationScreen() {
   };
 
   const handleCityLongPress = (cityName) => {
-    Alert.alert("Delete city ?", `Are you sure you want to delete this city?`, [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: () => {
-          setCities((prevCities) =>
-            prevCities.filter((city) => city.name !== cityName)
-          );
-        },
-      },
-    ]);
+    setIsSelecting(true);
+    setSelectedCities((prevSelected) => {
+      if (prevSelected.includes(cityName)) {
+        return prevSelected.filter((name) => name !== cityName);
+      } else {
+        return [...prevSelected, cityName];
+      }
+    });
+  };
+
+  const handleDeleteSelectedCities = () => {
+    setCities((prevCities) => {
+      return prevCities.filter((city) => !selectedCities.includes(city.name));
+    });
+    setSelectedCities([]);
+    setIsSelecting(false);
+  };
+
+  const handleCancelSelection = () => {
+    setSelectedCities([]);
+    setIsSelecting(false);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedCities.length === cities.length) {
+      setSelectedCities([]);
+    } else {
+      setSelectedCities(cities.map((city) => city.name));
+    }
   };
 
   const fetchWeatherData = async (cityName) => {
@@ -103,13 +156,32 @@ function LocationScreen() {
         translucent={true}
         backgroundColor="transparent"
       />
+
       <View style={{ marginTop: 40 }}>
         <CityList
           cities={cities}
           onCityPress={handleCityPress}
           onCityLongPress={handleCityLongPress}
+          selectedCities={selectedCities}
+          isSelecting={selectedCities.length > 0}
+          onSelectCity={(cityName) => {
+            setSelectedCities((prev) =>
+              prev.includes(cityName)
+                ? prev.filter((name) => name !== cityName)
+                : [...prev, cityName]
+            );
+          }}
         />
       </View>
+
+      {isSelecting && selectedCities.length > 0 && (
+        <TouchableOpacity
+          onPress={handleDeleteSelectedCities}
+          style={styles.deleteButton}
+        >
+          <Text style={styles.deleteButtonText}>Xóa</Text>
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity
         onPress={() => setIsModalVisible(true)}
@@ -134,8 +206,19 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 55,
   },
+  deleteButton: {
+    position: "absolute",
+    bottom: 40,
+    left: 35,
+    backgroundColor: "red",
+    borderRadius: 5,
+    padding: 10,
+  },
+  deleteButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
   addButton: {
-    marginLeft: 260,
     position: "absolute",
     bottom: 20,
     right: 20,

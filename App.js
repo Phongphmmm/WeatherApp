@@ -52,6 +52,7 @@ function DrawerNavigator() {
         name="Location Manage"
         component={LocationScreen}
         options={{
+          drawerLabel: "Location Manage",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="location" color={color} size={size} />
           ),

@@ -1,13 +1,28 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const CityItem = ({ city, onPress, onLongPress }) => {
+const CityItem = ({
+  city,
+  isSelected,
+  isSelecting,
+  onPress,
+  onLongPress,
+  onSelect,
+}) => {
   return (
     <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
       <View style={styles.cityItem}>
-        <Text style={styles.cityText}>{city.name}</Text>
-        <Text style={styles.cityTemp}>{city.temp}°C</Text>
-        <Text style={styles.description}>{city.description}</Text>
+        {isSelecting && (
+          <CheckBox
+            value={isSelected}
+            onValueChange={onSelect}
+            style={styles.checkbox}
+          />
+        )}
+        <View style={styles.cityInfo}>
+          <Text style={styles.cityText}>{city.name}</Text>
+          <Text style={styles.cityTemp}>{city.temp}°C</Text>
+          <Text style={styles.description}>{city.description}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
