@@ -7,7 +7,7 @@ const MapViewComponent = ({ region, handleMarkerPress }) => {
       <MapView
         style={styles.map}
         initialRegion={region}
-        onPress={(e) => handleMarkerPress(e.nativeEvent.coordinate)} // Khi nhấn vào bản đồ
+        onPress={(e) => handleMarkerPress(e.nativeEvent.coordinate)}
       >
         <Marker
           coordinate={{

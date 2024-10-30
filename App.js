@@ -5,13 +5,13 @@ import HomeScreen from "./src/screens/HomeScreen";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
-
+import { Provider } from "react-redux";
+import { store } from "./src/Redux/store";
 import MapScreen from "./src/screens/MapScreen";
 import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
-import { Provider } from "react-redux";
-import { store } from "./src/Redux/store";
 import VoiceInputScreen from "./src/screens/VoiceInputScreen";
+import FavoriteScreen from "./src/screens/FavouriteScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -79,12 +79,23 @@ function DrawerNavigator() {
           headerTintColor: "#392C60",
         }}
       />
+      <Drawer.Screen
+        name="Favourite Locations"
+        component={FavoriteScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="heart" color={color} size={size} />
+          ),
+          headerTintColor: "#392C60",
+        }}
+      />
     </Drawer.Navigator>
   );
 }
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);

@@ -9,7 +9,7 @@ import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
 import LocationDisplay from "../Components/HomeScreen/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 import WeatherInfo from "../Components/WeatherInfo";
-import { fetchWeatherData } from "./fetchWeatherData"; // Import hàm fetchWeatherData
+import { fetchWeatherData } from "./fetchWeatherData";
 
 export default function APi({ cityWeather, onWeatherData }) {
   const [weatherData, setWeatherData] = useState(null);

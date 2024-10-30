@@ -83,6 +83,7 @@ function LocationScreen() {
   };
 
   const handleCityPress = (city) => {
+    console.log("City Pressed:", city);
     navigation.navigate("Home", { cityWeather: city });
     Notifications.scheduleNotificationAsync({
       content: {
@@ -94,17 +95,21 @@ function LocationScreen() {
   };
 
   const handleCityLongPress = (cityName) => {
+    console.log("City Long Pressed:", cityName);
     setIsSelecting(true);
     setSelectedCities((prevSelected) => {
       if (prevSelected.includes(cityName)) {
+        console.log(`Deselecting city: ${cityName}`);
         return prevSelected.filter((name) => name !== cityName);
       } else {
+        console.log(`Selecting city: ${cityName}`);
         return [...prevSelected, cityName];
       }
     });
   };
 
   const handleDeleteSelectedCities = () => {
+    console.log("Deleting selected cities:", selectedCities);
     setCities((prevCities) => {
       return prevCities.filter((city) => !selectedCities.includes(city.name));
     });
@@ -113,14 +118,17 @@ function LocationScreen() {
   };
 
   const handleCancelSelection = () => {
+    console.log("Cancelling selection");
     setSelectedCities([]);
     setIsSelecting(false);
   };
 
   const handleSelectAll = () => {
     if (selectedCities.length === cities.length) {
+      console.log("Deselecting all cities");
       setSelectedCities([]);
     } else {
+      console.log("Selecting all cities");
       setSelectedCities(cities.map((city) => city.name));
     }
   };
@@ -134,6 +142,7 @@ function LocationScreen() {
       const data = await response.json();
 
       if (response.ok) {
+        console.log("Weather data fetched successfully:", data);
         return {
           name: data.name,
           temp: data.main.temp,
@@ -170,6 +179,7 @@ function LocationScreen() {
                 ? prev.filter((name) => name !== cityName)
                 : [...prev, cityName]
             );
+            console.log("Selected Cities after toggle:", selectedCities);
           }}
         />
       </View>

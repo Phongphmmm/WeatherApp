@@ -7,6 +7,7 @@ const weatherSlice = createSlice({
     dailyForecast: [],
     hourlyForecast: [],
     cityWeather: [],
+    favouriteCities: [],
   },
   reducers: {
     setCurrentWeather: (state, action) => {
@@ -21,9 +22,28 @@ const weatherSlice = createSlice({
     setCityWeather: (state, action) => {
       state.cityWeather = action.payload;
     },
+    addFavouriteCity: (state, action) => {
+      const cityExists = state.favouriteCities.some(
+        (city) => city.name === action.payload.name
+      );
+      if (!cityExists) {
+        state.favouriteCities.push(action.payload);
+      }
+    },
+    removeFavouriteCity: (state, action) => {
+      state.favouriteCities = state.favouriteCities.filter(
+        (city) => city.name !== action.payload.name
+      );
+    },
   },
 });
 
-export const { setCurrentWeather, setDaily, setHourly, setCityWeather } =
-  weatherSlice.actions;
+export const {
+  setCurrentWeather,
+  setDaily,
+  setHourly,
+  setCityWeather,
+  addFavouriteCity,
+  removeFavouriteCity,
+} = weatherSlice.actions;
 export default weatherSlice.reducer;

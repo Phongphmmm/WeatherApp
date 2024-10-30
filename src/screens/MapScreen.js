@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import * as Location from "expo-location";
 import MapViewComponent from "../Components/Map/MapViewComponent";
@@ -7,6 +7,7 @@ import Loading from "../Components/Loading";
 
 export default function MapScreen({ route }) {
   const [location, setLocation] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedWeather, setSelectedWeather] = useState(null);
   const { cityWeather } = route.params || {};
 
@@ -50,6 +51,7 @@ export default function MapScreen({ route }) {
     );
     if (weatherData) {
       setSelectedWeather(weatherData);
+      setModalVisible(true);
     }
   };
 
@@ -71,7 +73,11 @@ export default function MapScreen({ route }) {
   return (
     <View style={{ flex: 1 }}>
       <MapViewComponent region={region} handleMarkerPress={handleMarkerPress} />
-      <MapInfor weatherData={selectedWeather} />
+      <MapInfor
+        weatherData={selectedWeather}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 }
