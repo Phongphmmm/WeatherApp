@@ -1,17 +1,29 @@
 import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import Constants from "expo-constants";
 
-export const registerForPushNotificationsAsync = async () => {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
-  if (existingStatus !== "granted") {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
+export async function requestNotificationPermission() {
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    return finalStatus === "granted";
   }
-  if (finalStatus !== "granted") {
-    alert("Failed to get push token for push notification!");
-    return;
-  }
-  const projectId = "14d163a9-0335-4bec-b519-b203ba484034";
-  const token = await Notifications.getExpoPushTokenAsync({ projectId });
-  return token;
-};
+  return false;
+}
+
+export async function sendWeatherNotification(message) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Weather Alert!",
+      body: message,
+      sound: true,
+    },
+    trigger: null,
+  });
+}

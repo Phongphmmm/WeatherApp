@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 
 const MapInfor = ({ weatherData, modalVisible, setModalVisible }) => {
   if (!weatherData) return null;
@@ -12,6 +19,7 @@ const MapInfor = ({ weatherData, modalVisible, setModalVisible }) => {
         setModalVisible(false);
       }}
     >
+      <StatusBar translucent={true} backgroundColor="rgba(0, 0, 0, 0.5)" />
       <TouchableOpacity
         style={styles.centeredView}
         activeOpacity={1}
@@ -45,6 +53,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    height: "100%",
   },
   modalView: {
     width: "80%",

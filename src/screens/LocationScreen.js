@@ -9,6 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
+import * as Location from "expo-location";
 
 import CityModal from "../Components/ManageLocation/CityModal";
 import CityList from "../Components/ManageLocation/CityList";
@@ -19,7 +20,20 @@ function LocationScreen() {
   const [selectedCities, setSelectedCities] = useState([]);
   const [isSelecting, setIsSelecting] = useState(false);
   const navigation = useNavigation();
+  const [weatherCondition, setWeatherCondition] = useState(null);
 
+  const requestNotificationPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission for notifications was not granted!");
+      return null;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    return {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+  };
   useEffect(() => {
     requestNotificationPermission();
   }, []);
@@ -61,13 +75,6 @@ function LocationScreen() {
       });
     }
   }, [isSelecting, selectedCities, cities]);
-
-  const requestNotificationPermission = async () => {
-    const { status } = await Notifications.requestPermissionsAsync();
-    if (status !== "granted") {
-      alert("Permission for notifications was not granted!");
-    }
-  };
 
   const handleAddCity = async (cityName) => {
     const weather = await fetchWeatherData(cityName.trim());

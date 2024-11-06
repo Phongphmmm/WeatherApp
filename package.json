@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "type": "module"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.0.0",
@@ -16,6 +17,7 @@
     "@react-native-firebase/firestore": "^21.2.0",
     "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/drawer": "^6.7.2",
+    "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
@@ -33,9 +35,11 @@
     "expo-speech": "~12.0.2",
     "expo-sqlite": "~14.0.6",
     "expo-status-bar": "~1.12.1",
+    "express": "^4.21.1",
     "firebase": "^11.0.1",
     "google-auth-library": "^9.14.1",
     "lottie-react-native": "^6.7.2",
+    "mongoose": "^8.7.3",
     "openai": "^4.67.1",
     "react": "18.2.0",
     "react-native": "0.74.5",

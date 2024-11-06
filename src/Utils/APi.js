@@ -9,7 +9,8 @@ import ForecastItemHourly from "../Components/HomeScreen/ForecastItemHourly";
 import LocationDisplay from "../Components/HomeScreen/LocationDisplay";
 import { setCurrentWeather, setDaily, setHourly } from "../Redux/weather";
 import WeatherInfo from "../Components/WeatherInfo";
-import { fetchWeatherData } from "./fetchWeatherData";
+import { fetchWeatherData } from "../Components/fetchWeatherData";
+import WeatherAnimation from "../Components/HomeScreen/WeatherAnimation";
 
 export default function APi({ cityWeather, onWeatherData }) {
   const [weatherData, setWeatherData] = useState(null);
@@ -18,6 +19,9 @@ export default function APi({ cityWeather, onWeatherData }) {
   const [dailyForecast, setDailyForecast] = useState(null);
   const [hourlyForecast, setHourlyForecast] = useState(null);
   const dispatch = useDispatch();
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunset] = useState(null);
+  const [weatherCondition, setWeatherCondition] = useState(null);
 
   const BASE_URL = `https://api.openweathermap.org/data/2.5/`;
   const WEATHER_API_KEY = `c434d1b03112519305e8d850d4b66a07`;
@@ -57,7 +61,11 @@ export default function APi({ cityWeather, onWeatherData }) {
         setWeatherData(data.weatherData);
         setDailyForecast(data.dailyForecast);
         setHourlyForecast(data.hourlyForecast);
-
+        if (data.weatherData) {
+          setSunrise(data.weatherData.sys.sunrise);
+          setSunset(data.weatherData.sys.sunset);
+          setWeatherCondition(data.weatherData.weather[0].main);
+        }
         dispatch(setCurrentWeather(data.weatherData));
         dispatch(setDaily(data.dailyForecast));
         dispatch(setHourly(data.hourlyForecast));
@@ -78,6 +86,13 @@ export default function APi({ cityWeather, onWeatherData }) {
 
   return (
     <ScrollView style={styles.container}>
+      <View style={{ paddingTop: 30 }}>
+        <WeatherAnimation
+          weatherCondition={weatherCondition}
+          sunrise={sunrise}
+          sunset={sunset}
+        />
+      </View>
       <LocationDisplay weatherData={weatherData} />
       <WeatherInfo feelsLike={feelsLike} humidity={humidity} />
       <FlatList

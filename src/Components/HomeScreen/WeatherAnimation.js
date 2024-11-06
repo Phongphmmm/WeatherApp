@@ -1,10 +1,11 @@
 import { View, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
 import LottieView from "lottie-react-native";
 
 function WeatherAnimation({ weatherCondition, sunrise, sunset }) {
   let animationSource;
-  const currentTime = Math.floor(new Date().getTime() / 1000);
 
+  const currentTime = Math.floor(new Date().getTime() / 1000);
   const isDayTime = currentTime >= sunrise && currentTime < sunset;
 
   switch (weatherCondition) {

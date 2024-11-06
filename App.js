@@ -1,22 +1,71 @@
 import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/screens/HomeScreen";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
+
+import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
-import Loading from "./src/Components/Loading";
 import LocationScreen from "./src/screens/LocationScreen";
 import VoiceInputScreen from "./src/screens/VoiceInputScreen";
 import FavoriteScreen from "./src/screens/FavouriteScreen";
+import FeedbacksScreen from "./src/screens/FeedbacksScreen";
+import { checkFeedbackStatus } from "./src/Utils/usageStatus";
+import PlaceholderScreen from "./src/Components/PlaceHolderScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigator() {
+export default function App() {
+  const [feedbackCompleted, setFeedbackCompleted] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchFeedbackStatus = async () => {
+      const status = await checkFeedbackStatus();
+      setFeedbackCompleted(status);
+    };
+    fetchFeedbackStatus();
+  }, []);
+
+  const handleFeedbackCompletion = () => {
+    setFeedbackCompleted(true);
+  };
+
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="DrawerNavigator" options={{ headerShown: false }}>
+            {(props) => (
+              <DrawerNavigator
+                {...props}
+                feedbackCompleted={feedbackCompleted}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="FeedbacksScreen">
+            {(props) => (
+              <FeedbacksScreen
+                {...props}
+                onFeedbackComplete={handleFeedbackCompletion}
+              />
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
+}
+
+function DrawerNavigator({ feedbackCompleted, navigation }) {
+  const handleRedirectToFeedback = () => {
+    navigation.navigate("FeedbacksScreen");
+  };
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -43,6 +92,7 @@ function DrawerNavigator() {
         name="Home"
         component={HomeScreen}
         options={{
+          headerTintColor: "white",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
@@ -52,74 +102,70 @@ function DrawerNavigator() {
         name="Location Manage"
         component={LocationScreen}
         options={{
-          drawerLabel: "Location Manage",
+          headerTintColor: "#3E2D8F",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="location" color={color} size={size} />
           ),
-          headerTintColor: "#392C60",
+        }}
+      />
+      <Drawer.Screen
+        name="Favourite"
+        component={FavoriteScreen}
+        options={{
+          headerTintColor: "#3E2D8F",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="heart" color={color} size={size} />
+          ),
         }}
       />
       <Drawer.Screen
         name="Map"
-        component={MapScreen}
+        component={
+          feedbackCompleted
+            ? MapScreen
+            : () => (
+                <PlaceholderScreen
+                  message="You need to complete feedback before accessing the Map."
+                  onComplete={handleRedirectToFeedback}
+                />
+              )
+        }
         options={{
+          headerTintColor: "#3E2D8F",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="map-outline" color={color} size={size} />
           ),
-          headerTintColor: "#392C60",
         }}
       />
       <Drawer.Screen
         name="Voice"
-        component={VoiceInputScreen}
+        component={
+          feedbackCompleted
+            ? VoiceInputScreen
+            : () => (
+                <PlaceholderScreen
+                  message="You need to complete feedback before accessing the Voice screen."
+                  onComplete={handleRedirectToFeedback}
+                />
+              )
+        }
         options={{
+          headerTintColor: "#3E2D8F",
           drawerIcon: ({ color, size }) => (
             <Ionicons name="mic-outline" color={color} size={size} />
           ),
-          headerTintColor: "#392C60",
         }}
       />
       <Drawer.Screen
-        name="Favourite Locations"
-        component={FavoriteScreen}
+        name="Feedbacks"
+        component={FeedbacksScreen}
         options={{
+          headerTintColor: "#3E2D8F",
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="heart" color={color} size={size} />
+            <Ionicons name="thumbs-up-sharp" color={color} size={size} />
           ),
-          headerTintColor: "#392C60",
         }}
       />
     </Drawer.Navigator>
   );
 }
-
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="DrawerNavigator"
-            component={DrawerNavigator}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-  );
-}
-
-const styles = StyleSheet.create({});
